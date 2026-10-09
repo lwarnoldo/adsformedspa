@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090a0c" />
+  <meta name="description" content="Meta Ads and creative strategy for med spas and aesthetic clinics." />
+  <title>WIESEADS | Meta Ads for Med Spas & Aesthetic Clinics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    :root {
+      --bg: #090a0c;
+      --panel: #111316;
+      --panel-2: #171a1e;
+      --line: rgba(255,255,255,.11);
+      --text: #f3f4ef;
+      --muted: #9b9fa5;
+      --lime: #c6ff4d;
+      --purple: #a995ff;
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: "Space Grotesk", sans-serif; overflow-x: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+    .mono { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
+    .muted { color: var(--muted); }
+    .lime { color: var(--lime); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 11px "DM Mono", monospace; letter-spacing: .13em; text-transform: uppercase; color: var(--lime); }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 14px #c6ff4d88; }
+    .nav { height: 82px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; letter-spacing: -.04em; }
+    .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; background: var(--lime); color: #10120d; border-radius: 10px; font-weight: 700; transform: rotate(-5deg); }
+    .nav-links { display: flex; align-items: center; gap: 28px; color: #b9bdc1; font-size: 13px; }
+    .nav-links a:hover { color: var(--lime); }
+    .nav-cta, .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; padding: 13px 18px; font-size: 13px; font-weight: 700; transition: transform .2s, background .2s, color .2s; }
+    .nav-cta, .button-primary { background: var(--lime); color: #11140a; }
+    .nav-cta:hover, .button:hover { transform: translateY(-3px); }
+    .button-secondary { border: 1px solid var(--line); background: rgba(255,255,255,.025); }
+    .button-secondary:hover { border-color: var(--lime); }
+    .hero { min-height: 670px; display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: 50px; padding: 78px 0 92px; }
+    .hero h1 { font-size: clamp(48px, 6.7vw, 88px); line-height: .98; letter-spacing: -.075em; margin: 23px 0 24px; max-width: 720px; }
+    .hero h1 span { color: var(--lime); }
+    .hero-copy { max-width: 510px; font-size: 16px; line-height: 1.75; color: #aeb2b7; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+    .micro-proof { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 34px; color: #a7abb0; font: 10px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .07em; }
+    .micro-proof span { display: inline-flex; align-items: center; gap: 8px; }
+    .micro-proof i { color: var(--lime); width: 14px; height: 14px; }
+    .dashboard { position: relative; padding: 17px; border: 1px solid rgba(255,255,255,.14); background: linear-gradient(145deg, #191c20, #0e1012); border-radius: 28px; box-shadow: 0 35px 100px #0008; transform: perspective(1000px) rotateY(-5deg) rotateX(2deg); }
+    .dashboard::before { content: ""; position: absolute; inset: -1px; border-radius: 28px; padding: 1px; background: linear-gradient(135deg, #c6ff4d66, transparent 38%, #a995ff44); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; pointer-events: none; }
+    .dash-top { display: flex; align-items: center; justify-content: space-between; padding: 5px 4px 18px; font-size: 12px; }
+    .live-pill { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #c6ff4d44; color: var(--lime); padding: 6px 9px; border-radius: 30px; font: 9px "DM Mono", monospace; }
+    .live-pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--lime); }
+    .dash-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric { padding: 17px; background: #ffffff06; border: 1px solid var(--line); border-radius: 15px; }
+    .metric label { display: block; color: #8e949a; font: 9px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
+    .metric strong { font-size: clamp(22px, 3vw, 32px); letter-spacing: -.06em; }
+    .metric small { color: var(--lime); font-size: 10px; margin-left: 5px; }
+    .chart-card { margin-top: 10px; padding: 18px; border-radius: 15px; border: 1px solid var(--line); background: #ffffff04; }
+    .chart-heading { display: flex; justify-content: space-between; font-size: 11px; color: #b5b9bd; }
+    .chart-heading b { color: var(--text); font-size: 12px; }
+    .chart { width: 100%; height: 130px; margin-top: 14px; overflow: visible; }
+    .chart-grid { stroke: #ffffff12; stroke-width: 1; }
+    .chart-line { fill: none; stroke: var(--lime); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 500; stroke-dashoffset: 500; }
+    .chart-area { fill: url(#chartFill); opacity: .5; }
+    .dash-bottom { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; color: #92979d; font: 9px "DM Mono", monospace; }
+    .float-tag { position: absolute; background: #1a1d20; border: 1px solid #ffffff20; border-radius: 12px; padding: 12px 14px; box-shadow: 0 12px 35px #0007; font-size: 11px; animation: float 5s ease-in-out infinite; }
+    .float-tag strong { color: var(--lime); font-size: 15px; display: block; margin-top: 4px; }
+    .tag-one { right: -28px; top: 105px; }
+    .tag-two { left: -35px; bottom: 65px; animation-delay: -2s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .ticker { border-block: 1px solid var(--line); overflow: hidden; padding: 17px 0; background: #ffffff02; }
+    .ticker-track { display: flex; gap: 45px; width: max-content; animation: ticker 28s linear infinite; color: #7e8388; font: 10px "DM Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .ticker-track span { display: flex; align-items: center; gap: 12px; }
+    .ticker-track span::before { content: "✳"; color: var(--lime); font-size: 15px; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    section { padding: 105px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 40px; }
+    .section-head h2 { margin: 14px 0 0; font-size: clamp(35px, 4.5vw, 57px); line-height: 1.02; letter-spacing: -.065em; }
+    .section-head p { max-width: 350px; color: var(--muted); line-height: 1.7; font-size: 14px; margin: 0 0 4px; }
+    .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .project { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); transition: transform .3s, border-color .3s; }
+    .project:hover { transform: translateY(-6px); border-color: #c6ff4d55; }
+    .project-art { min-height: 285px; position: relative; overflow: hidden; display: grid; place-items: center; }
+    .art-commerce { background: radial-gradient(ellipse at 50% 45%, #3e316a, #171325 55%, #111116); }
+    .art-jewelry { background: radial-gradient(ellipse at 50% 45%, #58402d, #201a16 55%, #111112); }
+    .app-window { width: 72%; max-width: 330px; background: #f3f0ff; color: #171420; border-radius: 16px; padding: 14px; box-shadow: 0 25px 60px #0007; transform: rotate(-4deg); transition: transform .5s; }
+    .project:hover .app-window { transform: rotate(0) scale(1.03); }
+    .app-top { display: flex; justify-content: space-between; font-size: 9px; font-weight: 700; }
+    .app-game { margin: 15px 0 10px; height: 95px; border-radius: 10px; background: linear-gradient(135deg, #ff8a5b, #c34ef1 55%, #5548e9); display: grid; place-items: center; color: white; font-size: 35px; }
+    .app-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; }
+    .app-bottom span:last-child { background: #191622; color: white; padding: 8px 10px; border-radius: 20px; }
+    .jewel-stage { width: 78%; height: 230px; position: relative; display: grid; place-items: center; }
+    .jewel-ring { width: 125px; height: 125px; border: 11px solid #d7b477; border-radius: 50%; transform: rotateX(64deg) rotateZ(-24deg); box-shadow: 0 0 0 3px #6b4c2c, 0 0 35px #d7b47755, inset 0 0 12px #fff7; position: absolute; }
+    .jewel-chain { position: absolute; width: 170px; height: 205px; border: 3px solid #c5a06a; border-radius: 48% 48% 40% 40%; transform: rotate(10deg); filter: drop-shadow(0 0 10px #c69c5b55); }
+    .jewel-pendant { position: absolute; top: 145px; width: 29px; height: 39px; background: linear-gradient(120deg, #fff0bc, #b17b32 50%, #f7dda0); clip-path: polygon(50% 0, 100% 35%, 80% 100%, 20% 100%, 0 35%); box-shadow: 0 0 15px #d9b77a; }
+    .project-body { padding: 25px; }
+    .project-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #a4a8ad; font: 9px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .1em; }
+    .project-topline span:last-child { color: var(--lime); }
+    .project h3 { font-size: 25px; letter-spacing: -.045em; margin: 17px 0 10px; }
+    .project p { color: var(--muted); line-height: 1.7; font-size: 13px; margin: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+    .tags span { padding: 7px 10px; border-radius: 30px; border: 1px solid var(--line); color: #c3c6ca; font: 9px "DM Mono", monospace; }
+    .project-note { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 11px; color: #888d92; line-height: 1.6; }
+    .project-note b { color: var(--text); }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .process-card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 23px 20px; min-height: 210px; }
+    .process-num { color: var(--lime); font: 11px "DM Mono", monospace; }
+    .process-icon { display: grid; place-items: center; width: 40px; height: 40px; margin: 25px 0 20px; background: #c6ff4d12; border: 1px solid #c6ff4d30; border-radius: 12px; color: var(--lime); }
+    .process-card h3 { font-size: 16px; margin: 0 0 9px; }
+    .process-card p { font-size: 12px; color: var(--muted); line-height: 1.65; margin: 0; }
+    .capabilities { display: grid; grid-template-columns: .85fr 1.15fr; gap: 65px; align-items: start; }
+    .capabilities h2 { font-size: clamp(36px, 4vw, 54px); letter-spacing: -.065em; line-height: 1.03; margin: 15px 0 20px; }
+    .capabilities-copy p { color: var(--muted); font-size: 14px; line-height: 1.8; max-width: 380px; }
+    .cap-list { border-top: 1px solid var(--line); }
+    .cap-row { display: grid; grid-template-columns: 45px 1fr 22px; gap: 14px; align-items: center; padding: 21px 0; border-bottom: 1px solid var(--line); }
+    .cap-row .num { color: var(--lime); font: 10px "DM Mono", monospace; }
+    .cap-row h3 { margin: 0 0 5px; font-size: 16px; }
+    .cap-row p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .cap-row i { color: #7e848a; }
+    .contact-panel { border: 1px solid #c6ff4d35; border-radius: 28px; padding: clamp(30px, 6vw, 70px); background: radial-gradient(ellipse at 100% 0%, #c6ff4d10, transparent 45%), #101214; position: relative; overflow: hidden; }
+    .contact-panel::after { content: "LET'S BUILD"; position: absolute; right: -10px; bottom: -38px; color: #ffffff04; font-size: clamp(60px, 12vw, 150px); font-weight: 700; letter-spacing: -.08em; pointer-events: none; }
+    .contact-panel h2 { font-size: clamp(40px, 6vw, 74px); letter-spacing: -.07em; line-height: .98; max-width: 720px; margin: 20px 0; }
+    .contact-panel p { max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.8; margin-bottom: 28px; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 12px; position: relative; z-index: 1; }
+    footer { border-top: 1px solid var(--line); padding: 25px 0; color: #777d82; font: 10px "DM Mono", monospace; letter-spacing: .07em; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+    .reveal { opacity: 0; transform: translateY(22px); }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 20px); padding: 12px 16px; border: 1px solid var(--line); background: #171a1e; border-radius: 12px; font-size: 12px; opacity: 0; pointer-events: none; transition: .25s; z-index: 99; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .testimonial-shell { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--panel); }
+    .testimonial-track { display: flex; transition: transform .55s cubic-bezier(.2,.75,.25,1); will-change: transform; }
+    .testimonial-slide { flex: 0 0 100%; min-width: 0; padding: clamp(25px, 5vw, 52px); }
+    .testimonial-person { display: flex; align-items: center; gap: 13px; }
+    .testimonial-person img { width: 54px; height: 54px; object-fit: cover; border-radius: 50%; border: 2px solid #c6ff4d55; background: var(--panel-2); }
+    .testimonial-person strong { display: block; font-size: 14px; margin-bottom: 5px; }
+    .testimonial-person span { color: var(--muted); font: 9px "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+    .quote-mark { color: var(--lime); font-size: 66px; line-height: .9; margin-top: 28px; font-weight: 700; }
+    .testimonial-slide blockquote { max-width: 790px; margin: 8px 0 24px; font-size: clamp(20px, 3.4vw, 34px); line-height: 1.35; letter-spacing: -.04em; }
+    .story-tag { display: inline-flex; padding: 9px 12px; border: 1px solid #c6ff4d35; border-radius: 30px; color: var(--lime); font: 10px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .05em; }
+    .testimonial-controls { display: flex; align-items: center; justify-content: space-between; padding: 16px clamp(25px, 5vw, 52px); border-top: 1px solid var(--line); }
+    .testimonial-count { color: var(--muted); font: 10px "DM Mono", monospace; letter-spacing: .1em; }
+    .testimonial-buttons { display: flex; gap: 8px; }
+    .testimonial-buttons button { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); background: #ffffff05; color: var(--text); border-radius: 50%; cursor: pointer; transition: .2s; }
+    .testimonial-buttons button:hover { background: var(--lime); border-color: var(--lime); color: #11140a; }
+    .testimonial-buttons svg { width: 17px; height: 17px; }
+    .testimonial-disclaimer { padding: 0 clamp(25px, 5vw, 52px) 20px; margin: 0; color: #858b91; font-size: 10px; line-height: 1.65; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; gap: 55px; padding-top: 65px; }
+      .hero-copy { max-width: 620px; }
+      .dashboard { max-width: 570px; width: 100%; margin: 0 auto; transform: none; }
+      .tag-one { right: -10px; } .tag-two { left: -10px; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .capabilities { grid-template-columns: 1fr; gap: 30px; }
+    }
+    @media (max-width: 650px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      .nav { height: 70px; }
+      .nav-links { gap: 14px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 10px 13px; font-size: 11px; }
+      .hero { min-height: auto; padding: 58px 0 70px; }
+      .hero h1 { font-size: clamp(46px, 13vw, 68px); }
+      .hero-copy { font-size: 14px; }
+      .micro-proof { gap: 12px; font-size: 8px; }
+      .dashboard { padding: 11px; border-radius: 20px; }
+      .metric { padding: 13px; }
+      .metric strong { font-size: 25px; }
+      .tag-one { top: 82px; right: -5px; }
+      .tag-two { bottom: 35px; left: -5px; }
+      .float-tag { font-size: 9px; padding: 9px 10px; }
+      .float-tag strong { font-size: 13px; }
+      section { padding: 72px 0; }
+      .section-head { display: block; margin-bottom: 26px; }
+      .section-head p { margin-top: 17px; }
+      .projects { grid-template-columns: 1fr; }
+      .project-art { min-height: 250px; }
+      .process-grid { gap: 9px; }
+      .process-card { padding: 17px 14px; min-height: 195px; }
+      .process-icon { margin: 20px 0 15px; }
+      .cap-row { grid-template-columns: 28px 1fr 18px; gap: 10px; }
+      .contact-panel { border-radius: 21px; }
+      .footer-inner { font-size: 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap nav">
+    <a class="brand" href="#home" aria-label="WieseAds home"><span class="brand-mark">W.</span><span>WIESEADS<span class="lime">®</span></span></a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#work">Selected work</a>
+      <a href="#approach">Approach</a>
+      <a href="#stories">Clinic stories</a>
+      <a href="#capabilities">Capabilities</a>
+      <a class="nav-cta" href="#contact">Let's talk <i data-lucide="arrow-up-right" size="15"></i></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="wrap hero" id="home">
+      <div class="hero-content">
+        <span class="eyebrow">Paid media · Creative strategy</span>
+        <h1>Aesthetic ads that turn <span>attention into appointments.</span></h1>
+        <p class="hero-copy">I help med spas and aesthetic clinics attract more qualified inquiries for treatments like Botox, dermal fillers, and skin rejuvenation through thoughtful creative and data-led Meta Ads.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">Explore my work <i data-lucide="arrow-up-right" size="16"></i></a>
+          <a class="button button-secondary" href="#contact">Discuss a project <i data-lucide="message-circle" size="16"></i></a>
+        </div>
+        <div class="micro-proof">
+          <span><i data-lucide="check-circle-2"></i> Treatment-focused creative</span>
+          <span><i data-lucide="check-circle-2"></i> Lead quality tracking</span>
+          <span><i data-lucide="check-circle-2"></i> Aesthetic growth mindset</span>
+        </div>
+      </div>
+
+      <div class="dashboard" aria-label="Illustrative performance dashboard">
+        <div class="dash-top"><span class="mono muted">Aesthetic campaign overview / 30 days</span><span class="live-pill">LIVE VIEW</span></div>
+        <div class="dash-metrics">
+          <div class="metric"><label>Creative tests</label><strong data-count="24">0</strong><small>↗ iterations</small></div>
+          <div class="metric"><label>Signals tracked</label><strong data-count="6">0</strong><small>core KPIs</small></div>
+          <div class="metric"><label>Testing mindset</label><strong>Fast</strong><small>→ learn</small></div>
+          <div class="metric"><label>North star</label><strong>Profit</strong><small>not vanity</small></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-heading"><span>Lead generation testing</span><b>Test → Learn → Improve</b></div>
+          <svg class="chart" viewBox="0 0 440 130" role="img" aria-label="Illustrative upward trend chart">
+            <defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#c6ff4d" stop-opacity=".38"/><stop offset="100%" stop-color="#c6ff4d" stop-opacity="0"/></linearGradient></defs>
+            <path class="chart-grid" d="M0 20H440 M0 55H440 M0 90H440 M0 125H440"/>
+            <path class="chart-area" d="M0 108 C25 100 33 112 58 91 S95 97 119 76 S151 87 180 66 S215 77 242 51 S276 68 303 44 S339 51 360 30 S401 42 440 10 L440 130 L0 130Z"/>
+            <path class="chart-line" d="M0 108 C25 100 33 112 58 91 S95 97 119 76 S151 87 180 66 S215 77 242 51 S276 68 303 44 S339 51 360 30 S401 42 440 10"/>
+          </svg>
+          <div class="dash-bottom"><span>WEEK 01</span><span>WEEK 02</span><span>WEEK 03</span><span>WEEK 04</span></div>
+        </div>
+        <div class="float-tag tag-one">Creative testing<strong>Test treatment angles ↗</strong></div>
+        <div class="float-tag tag-two">Decision framework<strong>Leads over guesswork</strong></div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-track">
+      <span>Meta Ads</span><span>Creative Strategy</span><span>Paid Social</span><span>Funnel Thinking</span><span>Audience Testing</span><span>Performance Analysis</span><span>Meta Ads</span><span>Creative Strategy</span><span>Paid Social</span><span>Funnel Thinking</span><span>Audience Testing</span><span>Performance Analysis</span>
+    </div></div>
+
+    <section class="wrap" id="work">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Aesthetic campaign concepts / 01–02</span><h2>Aesthetic treatments.<br><span class="lime">Clear campaign strategy.</span></h2></div>
+        <p>Every aesthetic treatment needs a clear message, trustworthy creative, and a path from ad click to consultation.</p>
+      </div>
+      <div class="projects">
+        <article class="project reveal">
+          <div class="project-art art-commerce">
+            <div class="app-window">
+              <div class="app-top"><span>PLAY / SHOP</span><span>✦ 2,450 POINTS</span></div>
+              <div class="app-game">✦</div>
+              <div class="app-bottom"><span>Unlock your next reward</span><span>PLAY NOW ↗</span></div>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-topline"><span>Concept direction / 01</span><span>Botox & injectables</span></div>
+            <h3>Make the first consultation feel easy.</h3>
+            <p>A campaign concept for clinics that want more Botox consultations. Lead with the treatment goal, explain what a consultation involves, and make the next step feel simple.</p>
+            <div class="tags"><span>Treatment-led hooks</span><span>Consultation CTA</span><span>Local lead generation</span><span>Treatment-focused creative</span></div>
+            <div class="project-note"><b>Testing plan:</b> compare natural-looking treatment explainers, provider-led videos, and consultation-focused offers. Track qualified leads and booked appointments, not just clicks.</div>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project-art art-jewelry">
+            <div class="jewel-stage"><div class="jewel-chain"></div><div class="jewel-ring"></div><div class="jewel-pendant"></div></div>
+          </div>
+          <div class="project-body">
+            <div class="project-topline"><span>Concept direction / 02</span><span>Dermal fillers & skin treatments</span></div>
+            <h3>Show the treatment. Build trust.</h3>
+            <p>A creative concept for filler and skin-treatment campaigns, using clear explanations, realistic expectations, provider credibility, and a direct booking path.</p>
+            <div class="tags"><span>Provider-led creative</span><span>Treatment education</span><span>Retargeting</span><span>Local offer testing</span></div>
+            <div class="project-note"><b>Testing plan:</b> test provider introductions, FAQ videos, treatment-area explainers, and consultation offers. Compare CTR, cost per qualified lead, show-up rate, and cost per booked appointment.</div>
+          </div>
+        </article>
+      </div>
+      <p class="muted" style="font-size:11px;line-height:1.7;margin-top:18px;">These are sample campaign concepts, not claims of client results. Replace them with approved campaign screenshots and verified outcomes when available.</p>
+    </section>
+
+    <section class="wrap" id="approach">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">How I work</span><h2>Less guessing.<br><span class="lime">More useful tests.</span></h2></div>
+        <p>Every campaign needs a clear hypothesis, a fair test, and a decision based on what the data actually says.</p>
+      </div>
+      <div class="process-grid">
+        <article class="process-card reveal"><span class="process-num">STEP 01</span><div class="process-icon"><i data-lucide="scan-search"></i></div><h3>Find the angle</h3><p>Understand the clinic, local market, treatment demand, and the questions patients ask before booking.</p></article>
+        <article class="process-card reveal"><span class="process-num">STEP 02</span><div class="process-icon"><i data-lucide="layers-3"></i></div><h3>Build variations</h3><p>Create distinct ad angles for Botox, fillers, skin rejuvenation, and consultations.</p></article>
+        <article class="process-card reveal"><span class="process-num">STEP 03</span><div class="process-icon"><i data-lucide="chart-no-axes-combined"></i></div><h3>Read the signals</h3><p>Track lead cost, lead quality, booked consultations, show-up rate, and treatment revenue where available.</p></article>
+        <article class="process-card reveal"><span class="process-num">STEP 04</span><div class="process-icon"><i data-lucide="refresh-cw"></i></div><h3>Iterate with intent</h3><p>Pause weak ads, build on useful signals, and keep the clinic's appointment goals in focus.</p></article>
+      </div>
+    </section>
+
+    <section class="wrap" id="capabilities">
+      <div class="capabilities">
+        <div class="capabilities-copy reveal"><span class="eyebrow">What I bring</span><h2>Aesthetic marketing.<br><span class="lime">Performance discipline.</span></h2><p>I focus on the patient journey from the first ad impression to the consultation request. Creative should look credible, explain the treatment clearly, and set realistic expectations.</p><a class="button button-secondary" href="#contact">Let's discuss the role <i data-lucide="arrow-up-right" size="15"></i></a></div>
+        <div class="cap-list reveal">
+          <div class="cap-row"><span class="num">01</span><div><h3>Meta campaign setup & management</h3><p>Local Meta campaigns for Botox, fillers, facials, laser treatments, and skin rejuvenation.</p></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="cap-row"><span class="num">02</span><div><h3>Creative strategy & testing</h3><p>Treatment explainers, provider-led videos, FAQs, before-and-after content when compliant, and clear calls to action.</p></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="cap-row"><span class="num">03</span><div><h3>Performance reporting</h3><p>Review cost per lead, lead quality, consultation bookings, and the next creative test.</p></div><i data-lucide="arrow-up-right"></i></div>
+          <div class="cap-row"><span class="num">04</span><div><h3>E-commerce growth mindset</h3><p>Connect ad performance to qualified inquiries, booked appointments, and clinic goals.</p></div><i data-lucide="arrow-up-right"></i></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="wrap" id="stories">
+      <div class="section-head reveal">
+        <div><span class="eyebrow">Patient-growth scenarios</span><h2>Real clinic challenges.<br><span class="lime">Practical ad thinking.</span></h2></div>
+        <p>Examples of the kinds of problems an aesthetic clinic may want to solve with paid social, from inconsistent inquiries to treatment-specific campaigns.</p>
+      </div>
+      <div class="testimonial-shell reveal">
+        <div class="testimonial-track" id="testimonialTrack">
+          <article class="testimonial-slide">
+            <div class="testimonial-person">
+              <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=160&q=80" alt="Stock portrait of a healthcare professional">
+              <div><strong>Botox consultation campaign</strong><span>Illustrative clinic scenario</span></div>
+            </div>
+            <div class="quote-mark">“</div>
+            <blockquote>We were getting attention on social media, but not enough people were asking about Botox. The campaign needed to explain the consultation clearly and make booking feel simple.</blockquote>
+            <div class="story-tag">Challenge: inconsistent Botox inquiries</div>
+          </article>
+          <article class="testimonial-slide">
+            <div class="testimonial-person">
+              <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=160&q=80" alt="Stock portrait of professionals in a meeting">
+              <div><strong>Dermal filler lead generation</strong><span>Illustrative clinic scenario</span></div>
+            </div>
+            <div class="quote-mark">“</div>
+            <blockquote>Some weeks we had inquiries, and other weeks the calendar was quiet. We needed a repeatable way to test different messages and measure which leads actually booked.</blockquote>
+            <div class="story-tag">Challenge: unpredictable monthly leads</div>
+          </article>
+          <article class="testimonial-slide">
+            <div class="testimonial-person">
+              <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=160&q=80" alt="Stock portrait of a business professional">
+              <div><strong>Skin rejuvenation promotion</strong><span>Illustrative clinic scenario</span></div>
+            </div>
+            <div class="quote-mark">“</div>
+            <blockquote>We wanted to promote a skin treatment without making the ads feel pushy. Educational creative and a clear consultation offer gave us a more useful starting point to test.</blockquote>
+            <div class="story-tag">Challenge: explain a treatment clearly</div>
+          </article>
+          <article class="testimonial-slide">
+            <div class="testimonial-person">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=160&q=80" alt="Stock portrait of a woman">
+              <div><strong>Local clinic awareness</strong><span>Illustrative clinic scenario</span></div>
+            </div>
+            <div class="quote-mark">“</div>
+            <blockquote>People nearby did not always know which treatments we offered. We needed local ads that introduced the clinic, answered common questions, and led people to ask about availability.</blockquote>
+            <div class="story-tag">Challenge: reach nearby potential patients</div>
+          </article>
+        </div>
+        <div class="testimonial-controls">
+          <span class="testimonial-count" id="testimonialCount">01 / 04</span>
+          <div class="testimonial-buttons">
+            <button type="button" id="testimonialPrev" aria-label="Previous example"><i data-lucide="arrow-left"></i></button>
+            <button type="button" id="testimonialNext" aria-label="Next example"><i data-lucide="arrow-right"></i></button>
+          </div>
+        </div>
+       
+    </section>
+
+    <section class="wrap" id="contact">
+      <div class="contact-panel reveal">
+        <span class="eyebrow">Open to the right project</span>
+        <h2>Ready to bring more patients into your clinic?</h2>
+        <p>Tell me which treatments you want to grow and what your clinic is trying to improve. We can discuss a practical ad strategy focused on qualified inquiries and booked consultations.</p>
+        <div class="contact-actions">
+          <!-- Replace the email address below with your real contact email. -->
+          <a class="button button-primary" href="mailto:lwarnoldo123@gmail.com?subject=Media%20Buyer%20Portfolio">Email me <i data-lucide="arrow-up-right" size="16"></i></a>
+          <a class="button button-secondary" href="https://x.com/ArnoldoWie71026" target="_blank" rel="noopener noreferrer">Message me on X <i data-lucide="send" size="15"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap footer-inner"><span>© <span id="year"></span> WIESEADS / AESTHETIC GROWTH</span><span>META ADS · MED SPA LEADS · CREATIVE STRATEGY</span></div></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">Portfolio link copied.</div>
+
+  <script>
+    // Icons
+    if (window.lucide) lucide.createIcons();
+
+    // Current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Animated metric counters
+    const counters = document.querySelectorAll("[data-count]");
+    const runCounter = (el) => {
+      const target = Number(el.dataset.count);
+      const start = performance.now();
+      const duration = 1100;
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    };
+
+    // Reveal animations with GSAP, with a CSS fallback
+    if (window.gsap && window.ScrollTrigger && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from(".hero-content > *", { y: 24, opacity: 0, duration: .8, stagger: .11, ease: "power3.out", delay: .15 });
+      gsap.from(".dashboard", { y: 35, opacity: 0, rotateY: -12, duration: 1, ease: "power3.out", delay: .35 });
+      gsap.utils.toArray(".reveal").forEach((el) => {
+        gsap.to(el, { y: 0, opacity: 1, duration: .7, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } });
+      });
+      gsap.to(".chart-line", { strokeDashoffset: 0, duration: 1.8, ease: "power2.out", delay: .7 });
+      ScrollTrigger.create({ trigger: ".dashboard", start: "top 80%", once: true, onEnter: () => counters.forEach(runCounter) });
+    } else {
+      document.querySelectorAll(".reveal").forEach(el => { el.style.opacity = 1; el.style.transform = "none"; });
+      counters.forEach(runCounter);
+      const line = document.querySelector(".chart-line");
+      if (line) line.style.strokeDashoffset = 0;
+    }
+
+
+    // Accessible, button-controlled carousel for illustrative clinic scenarios.
+    const testimonialTrack = document.getElementById("testimonialTrack");
+    const testimonialSlides = testimonialTrack ? Array.from(testimonialTrack.children) : [];
+    const testimonialCount = document.getElementById("testimonialCount");
+    let testimonialIndex = 0;
+    function updateTestimonials() {
+      if (!testimonialTrack || !testimonialSlides.length) return;
+      testimonialTrack.style.transform = `translateX(-${testimonialIndex * 100}%)`;
+      testimonialCount.textContent = `${String(testimonialIndex + 1).padStart(2, "0")} / ${String(testimonialSlides.length).padStart(2, "0")}`;
+    }
+    document.getElementById("testimonialPrev")?.addEventListener("click", () => {
+      testimonialIndex = (testimonialIndex - 1 + testimonialSlides.length) % testimonialSlides.length;
+      updateTestimonials();
+    });
+    document.getElementById("testimonialNext")?.addEventListener("click", () => {
+      testimonialIndex = (testimonialIndex + 1) % testimonialSlides.length;
+      updateTestimonials();
+      restartTestimonialAutoplay();
+    });
+
+    document.getElementById("testimonialPrev")?.addEventListener("click", () => {
+      restartTestimonialAutoplay();
+    });
+
+    // Automatically show the next clinic story every 6 seconds.
+    // Pause while the visitor hovers over or focuses the carousel.
+    let testimonialAutoplay = null;
+    const testimonialShell = document.querySelector(".testimonial-shell");
+    function startTestimonialAutoplay() {
+      if (testimonialAutoplay || testimonialSlides.length < 2) return;
+      testimonialAutoplay = window.setInterval(() => {
+        testimonialIndex = (testimonialIndex + 1) % testimonialSlides.length;
+        updateTestimonials();
+      }, 6000);
+    }
+    function stopTestimonialAutoplay() {
+      if (!testimonialAutoplay) return;
+      window.clearInterval(testimonialAutoplay);
+      testimonialAutoplay = null;
+    }
+    function restartTestimonialAutoplay() {
+      stopTestimonialAutoplay();
+      startTestimonialAutoplay();
+    }
+    testimonialShell?.addEventListener("mouseenter", stopTestimonialAutoplay);
+    testimonialShell?.addEventListener("mouseleave", startTestimonialAutoplay);
+    testimonialShell?.addEventListener("focusin", stopTestimonialAutoplay);
+    testimonialShell?.addEventListener("focusout", startTestimonialAutoplay);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopTestimonialAutoplay();
+      else startTestimonialAutoplay();
+    });
+    startTestimonialAutoplay();
+
+  </script>
+</body>
+</html>
